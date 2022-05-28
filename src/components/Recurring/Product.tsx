@@ -6,9 +6,19 @@ import { InitialProduct } from '../../models/InitialProperty'
 import { getProducts } from '../../api/ExternalAPI'
 import ProductTable from './ProductTable'
 
+/**
+ * 商品情報コンテキスト
+ */
 export const ProdInfoContext = createContext<Interface.IProduct[]>(InitialProduct)
 
+/**
+ * 商品ページ
+ * @returns 商品ページ
+ */
 const Product: React.VFC = () => {
+  /**
+   * 商品情報のステートフック
+   */
   const [prodInfo, setProdInfo] = useState<Interface.IProduct[]>(
     (function () {
       const storageData = sessionStorage.getItem('prodInfo')
@@ -18,6 +28,10 @@ const Product: React.VFC = () => {
       return InitialProduct
     })()
   )
+
+  /**
+   * ロード中のステートフック
+   */
   const [isLoaded, setIsLoaded] = useState<boolean>(
     (function () {
       const storageData = sessionStorage.getItem('prodInfo')
@@ -28,6 +42,9 @@ const Product: React.VFC = () => {
     })()
   )
 
+  /**
+   * 商品情報取得
+   */
   const getProdInfomation = async () => {
     setIsLoaded(false)
     await getProducts()
@@ -41,6 +58,9 @@ const Product: React.VFC = () => {
     setIsLoaded(true)
   }
 
+  /**
+   * 初回レンダー時処理
+   */
   useEffect(() => {
     if (!isLoaded) {
       getProdInfomation()

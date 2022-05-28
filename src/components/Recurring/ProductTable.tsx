@@ -17,6 +17,11 @@ import * as Type from '../../models/Type'
 import { ProductHeadCells } from '../../models/TableHeaderCells'
 import { ProdInfoContext } from './Product'
 
+/**
+ * 商品テーブルのヘッダを生成
+ * @param {Interface.ProductTableProps} props 商品テーブルプロパティ
+ * @returns 商品テーブルのヘッダ
+ */
 const EnhancedTableHead = (props: Interface.ProductTableProps) => {
   const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props
   const createSortHandler = (property: keyof Interface.IProduct) => (
@@ -65,14 +70,46 @@ const EnhancedTableHead = (props: Interface.ProductTableProps) => {
   )
 }
 
+/**
+ * 商品テーブル生成
+ * @returns 商品テーブル
+ */
 const ProductTable: React.VFC = () => {
+  /**
+   * 昇順、降順のステートフック
+   */
   const [order, setOrder] = useState<Type.Order>('asc')
-  const [orderBy, setOrderBy] = useState<keyof Interface.IProduct>('product_id')
-  const [selected, setSelected] = useState<readonly string[]>([])
-  const [page, setPage] = useState<number>(0)
-  const [rowsPerPage, setRowsPerPage] = useState<number>(5)
-  const corpData = useContext(ProdInfoContext)
 
+  /**
+   * 昇順、降順要素のステートフック
+   */
+  const [orderBy, setOrderBy] = useState<keyof Interface.IProduct>('product_id')
+
+  /**
+   * チェックボックス選択のステートフック
+   */
+  const [selected, setSelected] = useState<readonly string[]>([])
+
+  /**
+   * テーブルページのステートフック
+   */
+  const [page, setPage] = useState<number>(0)
+
+  /**
+   * テーブル表示行のステートすっく
+   */
+  const [rowsPerPage, setRowsPerPage] = useState<number>(5)
+
+  /**
+   * 商品情報
+   */
+  const prodData = useContext(ProdInfoContext)
+
+  /**
+   * ソートボタン押下処理
+   * @param {React.MouseEvent<unknown>} _event イベントオブジェクト
+   * @param {keyof Interface.IProduct} property ソートする要素
+   */
   const handleRequestSort = (
     _event: React.MouseEvent<unknown>,
     property: keyof Interface.IProduct
@@ -82,15 +119,25 @@ const ProductTable: React.VFC = () => {
     setOrderBy(property)
   }
 
+  /**
+   * 全選択ボタン押下処理
+   * @param {React.ChangeEvent<HTMLInputElement>} event イベントオブジェクト
+   * @returns 選択行のリスト
+   */
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelecteds = corpData.map((n) => n.product_id)
+      const newSelecteds = prodData.map((n) => n.product_id)
       setSelected(newSelecteds)
       return
     }
     setSelected([])
   }
 
+  /**
+   * チェックボックス押下処理
+   * @param {_event: React.MouseEvent<unknown>} _event イベントオブジェクト
+   * @param {string} product_id 商品ID
+   */
   const handleClick = (_event: React.MouseEvent<unknown>, product_id: string) => {
     const selectedIndex = selected.indexOf(product_id)
     let newSelected: readonly string[] = []
@@ -111,18 +158,35 @@ const ProductTable: React.VFC = () => {
     setSelected(newSelected)
   }
 
+  /**
+   * テーブルページネーション押下処理
+   * @param {unknown} _event イベントオブジェクト
+   * @param {number} newPage テーブルページ
+   */
   const handleChangePage = (_event: unknown, newPage: number) => {
     setPage(newPage)
   }
 
+  /**
+   * テーブル表示行リスト押下処理
+   * @param {React.ChangeEvent<HTMLInputElement>} event
+   */
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRowsPerPage(parseInt(event.target.value, 10))
     setPage(0)
   }
 
-  const isSelected = (customer_id: string) => selected.indexOf(customer_id) !== -1
+  /**
+   * チェックボックスで選択されているか返却
+   * @param {string} product_id 商品ID
+   * @returns true:選択, fals:未選択
+   */
+  const isSelected = (product_id: string) => selected.indexOf(product_id) !== -1
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - corpData.length) : 0
+  /**
+   * 空行
+   */
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - prodData.length) : 0
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -135,11 +199,11 @@ const ProductTable: React.VFC = () => {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={corpData.length}
+              rowCount={prodData.length}
             />
             <TableBody>
               {tUtil
-                .stableSort(corpData, tUtil.getComparator(order, orderBy))
+                .stableSort(prodData, tUtil.getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.product_id)
@@ -195,7 +259,7 @@ const ProductTable: React.VFC = () => {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={corpData.length}
+          count={prodData.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}

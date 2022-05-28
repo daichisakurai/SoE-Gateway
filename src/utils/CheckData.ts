@@ -7,6 +7,9 @@ import addFormats from 'ajv-formats'
 const ajv = new Ajv()
 addFormats(ajv)
 
+/**
+ * メルアドレスチェック用スキーマ
+ */
 const EmailSchema = {
   required: ['email'],
   type: 'object',
@@ -18,6 +21,9 @@ const EmailSchema = {
   }
 }
 
+/**
+ * パスワードチェック用スキーマ
+ */
 const PasswordSchema = {
   required: ['password'],
   type: 'object',
@@ -29,12 +35,22 @@ const PasswordSchema = {
   }
 }
 
+/**
+ * メールアドレスのチェック
+ * @param {string} email メールアドレス
+ * @returns バリデーション結果
+ */
 export const validateEmail = (email: string): boolean => {
   const validate = ajv.compile(EmailSchema)
   const result = validate({ email: email })
   return result
 }
 
+/**
+ * パスワードのチェック
+ * @param {string} password
+ * @returns 結果バリデーション結果
+ */
 export const validatePassword = (password: string): boolean => {
   const validate = ajv.compile(PasswordSchema)
   const result = validate({ password: password })

@@ -6,6 +6,11 @@ import AuthUserProvider, { useAuthUser } from './context/AuthUserProvider'
 import Login from './pages/Login'
 import Top from './pages/Top'
 
+/**
+ * 非認証時のルーティング
+ * @param {RouteProps} param0 ルーティングプロパティ
+ * @returns 非認証時のルーティング
+ */
 const UnAuthRoute: React.FC<RouteProps> = ({ ...props }) => {
   const authUser = useAuthUser()
   const isAuthenticated = authUser !== null
@@ -16,6 +21,11 @@ const UnAuthRoute: React.FC<RouteProps> = ({ ...props }) => {
   }
 }
 
+/**
+ * 認証時のルーティング
+ * @param {RouteProps} param0 ルーティングプロパティ
+ * @returns 認証時のルーティング
+ */
 const PrivateRoute: React.FC<RouteProps> = ({ ...props }) => {
   const authUser = useAuthUser()
   const isAuthenticated = authUser !== null
@@ -26,6 +36,9 @@ const PrivateRoute: React.FC<RouteProps> = ({ ...props }) => {
   }
 }
 
+/**
+ * MUIテーマ
+ */
 const theme = createTheme({
   palette: {
     primary: {
@@ -37,6 +50,10 @@ const theme = createTheme({
   }
 })
 
+/**
+ * ページをrender
+ * @returns ページ
+ */
 const App: React.VFC = () => {
   return (
     <>

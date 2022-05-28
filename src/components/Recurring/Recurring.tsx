@@ -3,21 +3,16 @@ import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
+import * as Interface from '../../models/Interface'
 import Corporation from './Corporation'
 import Product from './Product'
-
-interface TabPanelProps {
-  children?: React.ReactNode
-  index: number
-  value: number
-}
 
 /**
  * レンダーするタブパネルを返却する
  * @param {TabPanelProps} props タブパネルプロパティ
  * @returns タブパネル
  */
-const TabPanel = (props: TabPanelProps) => {
+const TabPanel = (props: Interface.TabPanelProps) => {
   const { children, value, index, ...other } = props
 
   return (
@@ -38,9 +33,9 @@ const TabPanel = (props: TabPanelProps) => {
 }
 
 /**
- *
- * @param {number} index
- * @returns
+ * タブの属性を作成
+ * @param {number} index タブのインデックス
+ * @returns タブの属性
  */
 const a11yProps = (index: number) => {
   return {
@@ -51,11 +46,19 @@ const a11yProps = (index: number) => {
 
 /**
  * メイン関数
- * @returns
+ * @returns リカーリングページ
  */
 const Recurring: React.VFC = () => {
+  /**
+   * タブのステートフック
+   */
   const [value, setValue] = useState<number>(0)
 
+  /**
+   * タブ押下時処理
+   * @param {React.SyntheticEvent} _event イベントオブジェクト
+   * @param {newValue} newValue 押下タブのインデックス
+   */
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
   }
@@ -63,7 +66,7 @@ const Recurring: React.VFC = () => {
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+        <Tabs value={value} onChange={handleChange} aria-label="recurring tabs">
           <Tab label="組織・従業員一覧" {...a11yProps(0)} />
           <Tab label="商品一覧" {...a11yProps(1)} />
         </Tabs>

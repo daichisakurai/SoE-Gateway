@@ -60,7 +60,7 @@ const Login: React.VFC = () => {
 
   /**
    * ログインボタン押下時処理
-   * @param event イベント
+   * @param {React.FormEvent<HTMLFormElement>} event イベント
    */
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()

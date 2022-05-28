@@ -185,7 +185,7 @@ const TOP: React.VFC = () => {
 
   /**
    * Drawerのリストアイテム押下時処理
-   * @param {Object} _event イベント
+   * @param {React.MouseEvent<HTMLDivElement, MouseEvent>} _event イベント
    * @param {string} page 押下ページ
    */
   const handleClicktoggleDrawer = (

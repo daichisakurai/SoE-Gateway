@@ -6,9 +6,19 @@ import { getCorporations } from '../../api/ExternalAPI'
 import * as Interface from '../../models/Interface'
 import { InitialCorporation } from '../../models/InitialProperty'
 
+/**
+ * 組織・従業員情報コンテキスト
+ */
 export const CorpInfoContext = createContext<Interface.ICorporation[]>(InitialCorporation)
 
+/**
+ * 組織・従業員情報
+ * @returns 組織・従業員情報ページ
+ */
 const Corporation: React.VFC = () => {
+  /**
+   * 組織・従業員情報のステートフック
+   */
   const [corpInfo, setCorpInfo] = useState<Interface.ICorporation[]>(
     (function () {
       const storageData = sessionStorage.getItem('corpInfo')
@@ -18,6 +28,10 @@ const Corporation: React.VFC = () => {
       return InitialCorporation
     })()
   )
+
+  /**
+   * ロード中のステートフック
+   */
   const [isLoaded, setIsLoaded] = useState<boolean>(
     (function () {
       const storageData = sessionStorage.getItem('corpInfo')
@@ -28,6 +42,9 @@ const Corporation: React.VFC = () => {
     })()
   )
 
+  /**
+   * 組織・従業員情報取得
+   */
   const getCorpInfomation = async () => {
     setIsLoaded(false)
     await getCorporations()
@@ -41,6 +58,9 @@ const Corporation: React.VFC = () => {
     setIsLoaded(true)
   }
 
+  /**
+   * 初回レンダー時処理
+   */
   useEffect(() => {
     if (!isLoaded) {
       getCorpInfomation()

@@ -25,6 +25,11 @@ import { CorporationHeadCells } from '../../models/TableHeaderCells'
 import { CorpInfoContext } from './Corporation'
 import SearchForm from '../common/SearchForm'
 
+/**
+ * 組織従業員テーブルのヘッダを生成
+ * @param {Interface.CorporationTableProps} props 組織従業員情報プロパティ
+ * @returns 組織従業員テーブルのヘッダ
+ */
 const CorporationTableHead = (props: Interface.CorporationTableProps) => {
   const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props
   const createSortHandler = (property: keyof Interface.ICorporation) => (
@@ -73,23 +78,65 @@ const CorporationTableHead = (props: Interface.CorporationTableProps) => {
   )
 }
 
+/**
+ * 組織従業員テーブル生成
+ * @returns 組織従業員テーブル
+ */
 const CorporationTable: React.VFC = () => {
+  /**
+   * 昇順、降順のステートフック
+   */
   const [order, setOrder] = useState<Type.Order>('asc')
+
+  /**
+   * 昇順、降順の要素のステートフック
+   */
   const [orderBy, setOrderBy] = useState<keyof Interface.ICorporation>('customer_id')
+
+  /**
+   * チェックボックス選択のステートフック
+   */
   const [selected, setSelected] = useState<readonly string[]>([])
+
+  /**
+   * テーブルページのステートフック
+   */
   const [page, setPage] = useState<number>(0)
+
+  /**
+   * テーブル表示行のステートすっく
+   */
   const [rowsPerPage, setRowsPerPage] = useState<number>(5)
+
+  /**
+   * テーブル表示行のステートすっく
+   */
+  const corpData = useContext(CorpInfoContext)
+
+  /**
+   * 追加ダイアログのステートフック
+   */
   const [openAddDialog, setOpenAddDialog] = useState<boolean>(false)
 
+  /**
+   * 追加ボタン押下処理
+   */
   const handleClickOpenAddDialog = () => {
     setOpenAddDialog(true)
   }
 
+  /**
+   * キャンセルボタン押下処理（追加ダイアログ）
+   */
   const handleCloseAddDialog = () => {
     setOpenAddDialog(false)
   }
-  const corpData = useContext(CorpInfoContext)
 
+  /**
+   * ソートボタン押下処理
+   * @param {React.MouseEvent<unknown>} _event イベントオブジェクト
+   * @param {keyof Interface.ICorporation} property ソートする要素
+   */
   const handleRequestSort = (
     _event: React.MouseEvent<unknown>,
     property: keyof Interface.ICorporation
@@ -99,6 +146,11 @@ const CorporationTable: React.VFC = () => {
     setOrderBy(property)
   }
 
+  /**
+   * 全選択ボタン押下処理
+   * @param {React.ChangeEvent<HTMLInputElement>} event イベントオブジェクト
+   * @returns 選択行のリスト
+   */
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
       const newSelecteds = corpData.map((n) => n.customer_id)
@@ -108,6 +160,11 @@ const CorporationTable: React.VFC = () => {
     setSelected([])
   }
 
+  /**
+   * チェックボックス押下処理
+   * @param {_event: React.MouseEvent<unknown>} _event イベントオブジェクト
+   * @param {string} product_id 商品ID
+   */
   const handleClickCheckbox = (_event: React.MouseEvent<unknown>, customer_id: string) => {
     const selectedIndex = selected.indexOf(customer_id)
     let newSelected: readonly string[] = []
@@ -128,17 +185,34 @@ const CorporationTable: React.VFC = () => {
     setSelected(newSelected)
   }
 
+  /**
+   * テーブルページネーション押下処理
+   * @param {unknown} _event イベントオブジェクト
+   * @param {number} newPage テーブルページ
+   */
   const handleChangePage = (_event: unknown, newPage: number) => {
     setPage(newPage)
   }
 
+  /**
+   * テーブル表示行リスト押下処理
+   * @param {React.ChangeEvent<HTMLInputElement>} event
+   */
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRowsPerPage(parseInt(event.target.value, 10))
     setPage(0)
   }
 
+  /**
+   * チェックボックスで選択されているか返却
+   * @param {string} product_id 商品ID
+   * @returns true:選択, fals:未選択
+   */
   const isSelected = (customer_id: string) => selected.indexOf(customer_id) !== -1
 
+  /**
+   * 空行
+   */
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - corpData.length) : 0
 
   return (

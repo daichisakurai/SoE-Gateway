@@ -1,4 +1,8 @@
 import React, { useState, useEffect, createContext } from 'react'
+import Box from '@mui/material/Box'
+import Toolbar from '@mui/material/Toolbar'
+import IconButton from '@mui/material/IconButton'
+import ReplayIcon from '@mui/icons-material/Replay'
 import Backdrop from '@mui/material/Backdrop'
 import CircularProgress from '@mui/material/CircularProgress'
 import CorporationTable from './CorporationTable'
@@ -67,9 +71,19 @@ const Corporation: React.VFC = () => {
     }
   }, [])
 
+  const handleClickReload = () => {
+    getCorpInfomation()
+  }
+
   return (
     <div>
       <CorpInfoContext.Provider value={corpInfo}>
+        <Toolbar>
+          <Box sx={{ flexGrow: 1 }} />
+          <IconButton aria-label="reload" onClick={handleClickReload}>
+            <ReplayIcon />
+          </IconButton>
+        </Toolbar>
         <CorporationTable />
         <Backdrop
           sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}

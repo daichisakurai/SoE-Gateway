@@ -71,6 +71,9 @@ const Corporation: React.VFC = () => {
     }
   }, [])
 
+  /**
+   * リロードボタン押下処理
+   */
   const handleClickReload = () => {
     getCorpInfomation()
   }

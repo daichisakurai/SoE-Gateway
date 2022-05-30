@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createContext } from 'react'
+import React, { useState, useEffect } from 'react'
 import Box from '@mui/material/Box'
 import Toolbar from '@mui/material/Toolbar'
 import IconButton from '@mui/material/IconButton'
@@ -9,11 +9,7 @@ import CorporationTable from './CorporationTable'
 import { getCorporations } from '../../api/ExternalAPI'
 import * as Interface from '../../models/Interface'
 import { InitialCorporation } from '../../models/InitialProperty'
-
-/**
- * 組織・従業員情報コンテキスト
- */
-export const CorpInfoContext = createContext<Interface.ICorporation[]>(InitialCorporation)
+import CorpInfoContext from '../../context/CorporationData'
 
 /**
  * 組織・従業員情報

@@ -15,7 +15,7 @@ import * as tUtil from '../../utils/TableUtil'
 import * as Interface from '../../models/Interface'
 import * as Type from '../../models/Type'
 import { ProductHeadCells } from '../../models/TableHeaderCells'
-import { ProdInfoContext } from './Product'
+import ProdInfoContext from '../../context/ProductData'
 
 /**
  * 商品テーブルのヘッダを生成

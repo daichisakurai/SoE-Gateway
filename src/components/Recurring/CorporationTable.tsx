@@ -22,7 +22,7 @@ import * as tUtil from '../../utils/TableUtil'
 import * as Interface from '../../models/Interface'
 import * as Type from '../../models/Type'
 import { CorporationHeadCells } from '../../models/TableHeaderCells'
-import { CorpInfoContext } from './Corporation'
+import CorpInfoContext from '../../context/CorporationData'
 import SearchForm from '../common/SearchForm'
 
 /**

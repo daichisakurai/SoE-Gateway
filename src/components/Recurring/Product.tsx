@@ -1,15 +1,11 @@
-import React, { useState, useEffect, createContext } from 'react'
+import React, { useState, useEffect } from 'react'
 import Backdrop from '@mui/material/Backdrop'
 import CircularProgress from '@mui/material/CircularProgress'
 import * as Interface from '../../models/Interface'
 import { InitialProduct } from '../../models/InitialProperty'
 import { getProducts } from '../../api/ExternalAPI'
 import ProductTable from './ProductTable'
-
-/**
- * 商品情報コンテキスト
- */
-export const ProdInfoContext = createContext<Interface.IProduct[]>(InitialProduct)
+import ProdInfoContext from '../../context/ProductData'
 
 /**
  * 商品ページ

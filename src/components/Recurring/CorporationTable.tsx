@@ -119,6 +119,16 @@ const CorporationTable: React.VFC = () => {
   const [openAddDialog, setOpenAddDialog] = useState<boolean>(false)
 
   /**
+   * 削除ダイアログのステートフック
+   */
+  const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false)
+
+  /**
+   * 更新ダイアログのステートフック
+   */
+  const [openUpdateDialog, setOpenUpdateDialog] = useState<boolean>(false)
+
+  /**
    * 追加ボタン押下処理
    */
   const handleClickOpenAddDialog = () => {
@@ -130,6 +140,55 @@ const CorporationTable: React.VFC = () => {
    */
   const handleCloseAddDialog = () => {
     setOpenAddDialog(false)
+  }
+
+  /**
+   * 追加ボタン押下処理（追加ダイアログ）
+   */
+  const hanbleClickAddButton = () => {
+    setOpenAddDialog(false)
+  }
+
+  /**
+   * 削除ボタン押下処理
+   */
+  const handleClickDeleteDialog = () => {
+    setOpenDeleteDialog(true)
+  }
+
+  /**
+   * キャンセルボタン押下処理（削除ダイアログ）
+   */
+  const handleCloseDeleteDialog = () => {
+    setOpenDeleteDialog(false)
+  }
+
+  /**
+   * 削除ボタン押下処理（削除ダイアログ）
+   */
+  const handleClickDeleteButton = () => {
+    setOpenDeleteDialog(false)
+  }
+
+  /**
+   * 更新ボタン押下処理
+   */
+  const handleClickUpdateDialog = () => {
+    setOpenUpdateDialog(true)
+  }
+
+  /**
+   * キャンセルボタン押下処理（更新ダイアログ）
+   */
+  const handleCloseUpdateDialog = () => {
+    setOpenUpdateDialog(false)
+  }
+
+  /**
+   * 更新ボタン押下処理
+   */
+  const handleClickUpdateButton = () => {
+    setOpenUpdateDialog(false)
   }
 
   /**
@@ -302,6 +361,7 @@ const CorporationTable: React.VFC = () => {
         <Button
           variant="contained"
           disabled={selected.length < 1 ? true : false}
+          onClick={handleClickDeleteDialog}
           sx={{ margin: '10px', width: '122px' }}
         >
           削除
@@ -309,13 +369,14 @@ const CorporationTable: React.VFC = () => {
         <Button
           variant="contained"
           disabled={selected.length === 1 ? false : true}
+          onClick={handleClickUpdateDialog}
           sx={{ marginLeft: '10px', width: '122px' }}
         >
           更新
         </Button>
       </Toolbar>
       <Dialog open={openAddDialog}>
-        <DialogTitle>組織・従業員追加</DialogTitle>
+        <DialogTitle>組織・従業員情報追加</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
@@ -339,7 +400,63 @@ const CorporationTable: React.VFC = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseAddDialog}>キャンセル</Button>
-          <Button onClick={handleCloseAddDialog}>追加</Button>
+          <Button onClick={hanbleClickAddButton}>追加</Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog open={openDeleteDialog}>
+        <DialogTitle>組織・従業員情報削除</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="customer_id"
+            label="販売先ID"
+            fullWidth
+            variant="outlined"
+          />
+          <TextField margin="dense" id="SCD" label="決算単位コード" fullWidth variant="outlined" />
+          <TextField margin="dense" id="FMTCD" label="組織コード" fullWidth variant="outlined" />
+          <TextField
+            margin="dense"
+            id="SYSKPNN"
+            label="担当者コード"
+            fullWidth
+            variant="outlined"
+          />
+          <TextField margin="dense" id="URISCD" label="売上先コード" fullWidth variant="outlined" />
+          <TextField margin="dense" id="CSTCD" label="顧客コード" fullWidth variant="outlined" />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDeleteDialog}>キャンセル</Button>
+          <Button onClick={handleClickDeleteButton}>削除</Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog open={openUpdateDialog}>
+        <DialogTitle>組織・従業員情報更新</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="customer_id"
+            label="販売先ID"
+            fullWidth
+            variant="outlined"
+          />
+          <TextField margin="dense" id="SCD" label="決算単位コード" fullWidth variant="outlined" />
+          <TextField margin="dense" id="FMTCD" label="組織コード" fullWidth variant="outlined" />
+          <TextField
+            margin="dense"
+            id="SYSKPNN"
+            label="担当者コード"
+            fullWidth
+            variant="outlined"
+          />
+          <TextField margin="dense" id="URISCD" label="売上先コード" fullWidth variant="outlined" />
+          <TextField margin="dense" id="CSTCD" label="顧客コード" fullWidth variant="outlined" />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseUpdateDialog}>キャンセル</Button>
+          <Button onClick={handleClickUpdateButton}>更新</Button>
         </DialogActions>
       </Dialog>
     </Box>

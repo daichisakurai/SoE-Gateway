@@ -7,7 +7,9 @@ SoEサービスGW管理画面
 ### Require
 
 * Node.js 14以上
+  * 14.19.1
 * npm 6以上
+  * 6.14.16
 * VSCode
 
 
